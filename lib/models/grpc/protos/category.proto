@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package category;
+
+message PutCategoryRequest {
+    string name = 1;
+    int32 color = 2;
+    int64 updateAt = 3;
+    optional int64 deleteAt = 4;
+}
+message PutCategoryResponse { }
+
+message CategoryInfo {
+    string name = 1;
+    int32 color = 2;
+    int64 updateAt = 3;
+    optional int64 deleteAt = 4;
+}
+message FetchCategoryRequest {
+    optional int64 lastFetchAt = 1;
+}
+message FetchCategoryResponse {
+    repeated CategoryInfo categories = 1;
+}
+
+service CategoryService {
+    rpc PutCategory (PutCategoryRequest) returns (PutCategoryResponse);
+    rpc FetchCategory (FetchCategoryRequest) returns (FetchCategoryResponse);
+}

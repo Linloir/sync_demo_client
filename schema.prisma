@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "dart run orm"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+    id          Int      @id @default(autoincrement())
+    uuid        String
+    title       String
+    status      Boolean
+    categoryId  Int
+
+    updateAt    DateTime
+    syncAt      DateTime
+    deleteAt    DateTime?
+
+    tags        Tag[]   // 弱关联
+    category    Category @relation(fields: [categoryId], references: [id])  // 强关联
+
+    @@unique([uuid])
+}
+
+model Tag {
+    id          Int      @id @default(autoincrement())
+    name        String
+    color       Int
+
+    updateAt    DateTime
+    syncAt      DateTime
+    deleteAt    DateTime?
+
+    tasks       Task[]
+
+    @@unique([name])
+}
+
+model Category {
+    id          Int      @id @default(autoincrement())
+    name        String
+    color       Int
+
+    updateAt    DateTime
+    syncAt      DateTime
+    deleteAt    DateTime?
+
+    tasks       Task[]
+
+    @@unique([name])
+}

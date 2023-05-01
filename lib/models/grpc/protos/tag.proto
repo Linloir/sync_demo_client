@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tag;
+
+message PutTagRequest {
+    string name = 1;
+    int32 color = 2;
+    int64 updateAt = 3;
+    optional int64 deleteAt = 4;
+}
+message PutTagResponse { }
+
+message TagInfo {
+    string name = 1;
+    int32 color = 2;
+    int64 updateAt = 3;
+    optional int64 deleteAt = 4;
+}
+message FetchTagRequest {
+    optional int64 lastFetchAt = 1;
+}
+message FetchTagResponse {
+    repeated TagInfo tags = 1;
+}
+
+
+service TagService {
+    rpc PutTag (PutTagRequest) returns (PutTagResponse);
+    rpc FetchTag (FetchTagRequest) returns (FetchTagResponse);
+}

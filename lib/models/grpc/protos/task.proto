@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package task;
+
+message NestedTag {
+    string name = 1;
+    int32 color = 2;
+    int64 updateAt = 3;
+    optional int64 deleteAt = 4;
+}
+
+message NestedCategory {
+    string name = 1;
+    int32 color = 2;
+    int64 updateAt = 3;
+    optional int64 deleteAt = 4;
+}
+
+message PutTaskRequest {
+    string uuid = 1;
+    string title = 2;
+    bool status = 3;
+    NestedCategory category = 4;
+    repeated NestedTag tags = 5;
+    int64 updateAt = 6;
+    optional int64 deleteAt = 7;
+}
+message PutTaskResponse {}
+
+message TaskInfo {
+    string uuid = 1;
+    string title = 2;
+    bool status = 3;
+    NestedCategory category = 4;
+    repeated NestedTag tags = 5;
+    int64 updateAt = 6;
+    optional int64 deleteAt = 7;
+}
+message FetchTaskRequest {
+    optional int64 lastFetchAt = 2;
+}
+message FetchTaskResponse {
+    repeated TaskInfo tasks = 1;
+}
+
+service TaskService {
+    rpc PutTask (PutTaskRequest) returns (PutTaskResponse);
+    rpc FetchTask (FetchTaskRequest) returns (FetchTaskResponse);
+}
